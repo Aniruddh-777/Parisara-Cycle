@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_map"
+        android:title="Map"
+        android:icon="@android:drawable/ic_menu_mapmode" />
+
+    <item
+        android:id="@+id/nav_report"
+        android:title="Report"
+        android:icon="@android:drawable/ic_menu_edit" />
+
+    <item
+        android:id="@+id/nav_pitstop"
+        android:title="PitStop"
+        android:icon="@android:drawable/ic_menu_compass" />
+
+    <item
+        android:id="@+id/nav_eco"
+        android:title="Eco"
+        android:icon="@android:drawable/ic_menu_info_details" />
+
+    <item
+        android:id="@+id/nav_buddy"
+        android:title="Buddy"
+        android:icon="@android:drawable/ic_menu_myplaces" />
+
+</menu>
