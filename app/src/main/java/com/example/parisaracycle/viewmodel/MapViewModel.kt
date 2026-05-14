@@ -52,7 +52,7 @@ class MapViewModel(
     private val buddyLocationRepository: BuddyLocationRepository,
     private val ecoStatsRepository: EcoStatsRepository
 ) : ViewModel() {
-    private val defaultCenter = LatLng(12.9716, 77.5946)
+    private val defaultCenter = LatLng(12.9141, 74.8560)
     private val _uiState = MutableStateFlow(
         MapUiState(
             currentLocation = defaultCenter,

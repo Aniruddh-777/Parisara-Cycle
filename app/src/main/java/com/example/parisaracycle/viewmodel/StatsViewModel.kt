@@ -27,10 +27,13 @@ class StatsViewModel(
                 _uiState.update { it.copy(stats = stats) }
             }
         }
+        refresh()
     }
 
     fun refresh() {
-        ecoStatsRepository.refresh()
+        viewModelScope.launch {
+            ecoStatsRepository.refresh()
+        }
     }
 
     companion object {

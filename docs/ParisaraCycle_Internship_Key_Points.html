@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Parisara-Cycle Internship Key Points</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm;
+    }
+
+    body {
+      color: #172018;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    h1, h2 {
+      color: #1b5e20;
+      line-height: 1.2;
+      margin: 0 0 8px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 4px;
+    }
+
+    h2 {
+      border-bottom: 1px solid #d6ded2;
+      font-size: 18px;
+      margin-top: 20px;
+      padding-bottom: 5px;
+    }
+
+    p {
+      margin: 0 0 9px;
+    }
+
+    ul {
+      margin: 7px 0 12px 22px;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #435147;
+      font-size: 15px;
+      margin-bottom: 18px;
+    }
+
+    .box {
+      background: #f3f7ef;
+      border: 1px solid #d6ded2;
+      border-radius: 8px;
+      margin: 12px 0 16px;
+      padding: 12px 14px;
+    }
+
+    .section {
+      break-inside: avoid;
+    }
+  </style>
+</head>
+<body>
+  <h1>Internship Key Points</h1>
+  <p class="subtitle">Parisara-Cycle - Green Commuter Guide Android Application</p>
+
+  <div class="box">
+    <p><strong>Project context:</strong> Parisara-Cycle is a Kotlin Android application that supports bicycle commuters with route planning, danger-zone reporting, pit-stop discovery, CO2 savings tracking, and optional nearby rider location sharing.</p>
+  </div>
+
+  <div class="section">
+    <h2>Project(s) Completed</h2>
+    <ul>
+      <li>Completed the Parisara-Cycle Android app structure with login, map, stats, and profile modules.</li>
+      <li>Implemented cycling-focused features such as route generation, danger-zone reporting, pit-stop markers, and buddy rider visibility.</li>
+      <li>Prepared the project to work in local demo mode, with optional Firebase and Google Maps/Directions integration for future deployment.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Outputs/Results Achieved</h2>
+    <ul>
+      <li>Generated a working app flow where users can sign in, select destinations, create routes, and view route distance.</li>
+      <li>Enabled eco-stat tracking that calculates daily and monthly CO2 savings using distance travelled by cycle.</li>
+      <li>Produced setup and user documentation to support installation, demonstration, and future project extension.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Application of Engineering Knowledge</h2>
+    <ul>
+      <li>Applied Android architecture concepts by separating UI screens, ViewModels, repositories, data models, and utility classes.</li>
+      <li>Used location-based engineering logic for current location, route distance calculation, nearby marker display, and rider filtering.</li>
+      <li>Applied sustainable mobility calculations by converting cycled distance into estimated CO2 savings.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Tools/Techniques Used</h2>
+    <ul>
+      <li>Used Kotlin, Jetpack Compose, Material 3, Gradle, and Android Studio project structure for app development.</li>
+      <li>Used Firebase-ready repositories for Authentication, Firestore danger-zone storage, and Realtime Database buddy sharing.</li>
+      <li>Used local fallback techniques such as SharedPreferences, mock pit-stops, local route generation, and keyless map rendering.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Impact of Your Work</h2>
+    <ul>
+      <li>Improved cyclist safety by allowing users to report potholes, dangerous intersections, and blocked paths.</li>
+      <li>Encouraged eco-friendly commuting by making CO2 savings visible through daily and monthly statistics.</li>
+      <li>Made the project easier to demonstrate because it can run without mandatory Firebase setup or paid API keys.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Practical Implementation</h2>
+    <ul>
+      <li>Built practical screens for authentication, route planning, eco-stat viewing, and profile-based live location sharing.</li>
+      <li>Connected user actions such as tapping the map, long-pressing danger zones, toggling filters, and generating routes to ViewModel logic.</li>
+      <li>Stored user sessions, reported danger zones, and eco-stat data locally, while keeping the design ready for cloud synchronization.</li>
+    </ul>
+  </div>
+</body>
+</html>

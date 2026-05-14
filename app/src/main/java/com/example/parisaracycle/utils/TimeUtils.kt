@@ -9,8 +9,12 @@ object TimeUtils {
     private val monthFormat = SimpleDateFormat("yyyyMM", Locale.US)
 
     fun dayKey(timeMillis: Long = System.currentTimeMillis()): String =
-        dayFormat.format(Date(timeMillis))
+        synchronized(dayFormat) {
+            dayFormat.format(Date(timeMillis))
+        }
 
     fun monthKey(timeMillis: Long = System.currentTimeMillis()): String =
-        monthFormat.format(Date(timeMillis))
+        synchronized(monthFormat) {
+            monthFormat.format(Date(timeMillis))
+        }
 }

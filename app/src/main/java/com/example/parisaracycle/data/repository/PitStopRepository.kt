@@ -5,7 +5,7 @@ import com.example.parisaracycle.data.model.PitStopType
 import com.google.android.gms.maps.model.LatLng
 
 class PitStopRepository {
-    private val defaultCenter = LatLng(12.9716, 77.5946)
+    private val defaultCenter = LatLng(12.9141, 74.8560)
 
     fun getNearbyPitStops(center: LatLng?): List<PitStop> {
         val base = center ?: defaultCenter

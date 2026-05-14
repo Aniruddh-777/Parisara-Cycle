@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Parisara-Cycle User Guide</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm;
+    }
+
+    body {
+      color: #18201a;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12.5px;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    h1, h2, h3 {
+      color: #1b5e20;
+      line-height: 1.2;
+      margin: 0 0 8px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 4px;
+    }
+
+    h2 {
+      border-bottom: 1px solid #d6ded2;
+      font-size: 20px;
+      margin-top: 22px;
+      padding-bottom: 5px;
+    }
+
+    h3 {
+      color: #006d77;
+      font-size: 15px;
+      margin-top: 16px;
+    }
+
+    p {
+      margin: 0 0 9px;
+    }
+
+    ul, ol {
+      margin: 6px 0 12px 22px;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #435147;
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .box {
+      background: #f3f7ef;
+      border: 1px solid #d6ded2;
+      border-radius: 8px;
+      margin: 12px 0;
+      padding: 12px 14px;
+    }
+
+    .note {
+      background: #edf7f8;
+      border-color: #c6e6e8;
+    }
+
+    .warning {
+      background: #fff6eb;
+      border-color: #f0d0a8;
+    }
+
+    .feature {
+      break-inside: avoid;
+      margin-bottom: 14px;
+    }
+
+    .label {
+      color: #435147;
+      font-weight: 700;
+    }
+
+    code {
+      background: #eef2eb;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      padding: 2px 4px;
+    }
+
+    .toc {
+      columns: 2;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Parisara-Cycle</h1>
+  <p class="subtitle">Green Commuter Guide - User Guide</p>
+
+  <div class="box note">
+    <p><strong>Purpose:</strong> Parisara-Cycle helps bicycle commuters choose safer routes, report danger zones, find basic pit-stops, track CO2 savings, and optionally share location with nearby riders.</p>
+    <p><strong>Current mode:</strong> The app works without Firebase or Google API keys. It uses local login, local map display, local route generation, mock pit-stops, and demo buddy markers. Real Firebase and Google routing can be connected later.</p>
+  </div>
+
+  <h2>Contents</h2>
+  <ol class="toc">
+    <li>Starting the App</li>
+    <li>Login or Register</li>
+    <li>Bottom Navigation</li>
+    <li>Safe Route Map</li>
+    <li>Danger Zone Reporting</li>
+    <li>Pit-stop Finder</li>
+    <li>Eco-stats</li>
+    <li>Buddy System</li>
+    <li>Profile</li>
+    <li>Permissions and Troubleshooting</li>
+  </ol>
+
+  <h2>1. Starting the App</h2>
+  <ol>
+    <li>Install and open the Parisara-Cycle app on the emulator or Android device.</li>
+    <li>The first screen is the login screen.</li>
+    <li>If location permission is requested, you can allow it for current-location features. The app still works in demo mode if you deny it.</li>
+  </ol>
+
+  <h2>2. Login or Register</h2>
+  <div class="feature">
+    <p><span class="label">Use:</span> Creates a rider session so app data can be linked to a user.</p>
+    <ol>
+      <li>Enter any valid email address.</li>
+      <li>Enter a password with at least 6 characters.</li>
+      <li>Tap <strong>Register</strong> for first-time use, or <strong>Sign in</strong> after that.</li>
+    </ol>
+    <p>In the current no-key mode, login is stored locally on the device. If Firebase is added later, the same screen uses Firebase Email/Password Authentication.</p>
+  </div>
+
+  <h2>3. Bottom Navigation</h2>
+  <p>The app has three main tabs at the bottom:</p>
+  <ul>
+    <li><strong>Map:</strong> Routes, danger zones, pit-stops, and buddy markers.</li>
+    <li><strong>Stats:</strong> Daily and monthly CO2 savings.</li>
+    <li><strong>Profile:</strong> Account details, live-location sharing, and sign out.</li>
+  </ul>
+
+  <h2>4. Safe Route Map</h2>
+  <div class="feature">
+    <p><span class="label">Use:</span> Helps cyclists select a source and destination, then generate a bicycle-friendly route.</p>
+    <ol>
+      <li>Open the <strong>Map</strong> tab.</li>
+      <li>Tap <strong>Allow location</strong> if you want the app to use your current location as the route source.</li>
+      <li>If location is not allowed, the app uses a default demo source point.</li>
+      <li>Tap <strong>Pick destination</strong>.</li>
+      <li>Tap anywhere on the map to set the destination.</li>
+      <li>Tap <strong>Route</strong> to draw the route.</li>
+    </ol>
+    <p>The route distance is used to calculate CO2 savings. In no-key mode, the app generates a local bicycle-style route. With Google Directions configured, it can use real bicycle routing.</p>
+  </div>
+
+  <h2>5. Danger Zone Reporting</h2>
+  <div class="feature">
+    <p><span class="label">Use:</span> Lets riders mark unsafe places so they can be avoided or watched carefully.</p>
+    <ol>
+      <li>Open the <strong>Map</strong> tab.</li>
+      <li>Long-press on the map where the danger exists.</li>
+      <li>Select one marker type:
+        <ul>
+          <li><strong>Pothole:</strong> Road damage that may cause a fall or tire damage.</li>
+          <li><strong>Dangerous Intersection:</strong> Junctions with high traffic risk or poor visibility.</li>
+          <li><strong>Blocked Path:</strong> Construction, parked vehicles, debris, or any blocked cycling path.</li>
+        </ul>
+      </li>
+      <li>The marker appears on the map.</li>
+    </ol>
+    <p>In no-key mode, danger zones are saved locally. With Firebase configured, they are saved to Firestore with latitude, longitude, type, timestamp, and user ID.</p>
+  </div>
+
+  <h2>6. Pit-stop Finder</h2>
+  <div class="feature">
+    <p><span class="label">Use:</span> Shows helpful stops near the cycling area.</p>
+    <ul>
+      <li><strong>Cycle repair shops:</strong> Useful for punctures, brake issues, chain repair, and basic service.</li>
+      <li><strong>Water points:</strong> Useful for hydration during the ride.</li>
+    </ul>
+    <p>Open the <strong>Map</strong> tab and keep the <strong>Pit-stops</strong> filter enabled. Pit-stop markers are shown automatically near the current map area.</p>
+    <p>The current version uses mock pit-stop data so the feature works without Places API billing or setup.</p>
+  </div>
+
+  <h2>7. Eco-stats</h2>
+  <div class="feature">
+    <p><span class="label">Use:</span> Tracks the environmental benefit of cycling.</p>
+    <p>The app uses this rule:</p>
+    <div class="box">
+      <strong>1 km cycled = 120 g CO2 saved</strong>
+    </div>
+    <ol>
+      <li>Create a route from the <strong>Map</strong> tab.</li>
+      <li>After the route is generated, the distance is added to your stats.</li>
+      <li>Open the <strong>Stats</strong> tab.</li>
+      <li>View:
+        <ul>
+          <li><strong>Today:</strong> Distance cycled and CO2 saved today.</li>
+          <li><strong>This month:</strong> Monthly cycling distance and CO2 saved.</li>
+        </ul>
+      </li>
+    </ol>
+    <p>Stats are stored locally on the device.</p>
+  </div>
+
+  <h2>8. Buddy System</h2>
+  <div class="feature">
+    <p><span class="label">Use:</span> Helps cyclists see nearby riders and share live location.</p>
+    <ol>
+      <li>Open the <strong>Profile</strong> tab.</li>
+      <li>Turn on <strong>Live location</strong>.</li>
+      <li>Return to the <strong>Map</strong> tab.</li>
+      <li>Keep the <strong>Buddies</strong> filter enabled to see nearby rider markers.</li>
+    </ol>
+    <p>In no-key mode, the app shows demo nearby riders. With Firebase Realtime Database configured, it syncs live rider locations.</p>
+    <p>For battery efficiency, live location updates are designed to run at a controlled interval rather than constantly updating every second.</p>
+  </div>
+
+  <h2>9. Profile</h2>
+  <div class="feature">
+    <p><span class="label">Use:</span> Manages rider account and live sharing.</p>
+    <ul>
+      <li>View signed-in email and user ID.</li>
+      <li>Enable or disable live-location sharing.</li>
+      <li>Request location permission if needed.</li>
+      <li>Tap <strong>Sign out</strong> to return to the login screen.</li>
+    </ul>
+  </div>
+
+  <h2>10. Map Filters</h2>
+  <p>The Map screen includes filter chips:</p>
+  <ul>
+    <li><strong>Danger:</strong> Shows or hides danger-zone markers.</li>
+    <li><strong>Pit-stops:</strong> Shows or hides repair and water markers.</li>
+    <li><strong>Buddies:</strong> Shows or hides nearby rider markers.</li>
+    <li><strong>Route:</strong> Shows or hides the selected route line.</li>
+  </ul>
+
+  <h2>11. Permissions</h2>
+  <ul>
+    <li><strong>Location:</strong> Used to set your current source point and share live location.</li>
+    <li><strong>Internet:</strong> Used later for Firebase, Google Directions, and online services. The no-key demo can still run without real backend setup.</li>
+  </ul>
+
+  <h2>12. Troubleshooting</h2>
+  <div class="box warning">
+    <p><strong>App opens slowly first time:</strong> The emulator may take a few seconds to load Compose and Android services on first launch.</p>
+    <p><strong>Map is not Google Maps:</strong> This is expected in no-key mode. The app uses a keyless local map so it can run without manual API setup.</p>
+    <p><strong>No current location:</strong> Allow location permission and make sure the emulator/device location service is enabled.</p>
+    <p><strong>Firebase data is not syncing:</strong> Add <code>app/google-services.json</code> and enable Firebase Authentication, Firestore, and Realtime Database.</p>
+    <p><strong>Real bicycle routing is not available:</strong> Add valid Google Maps/Directions API keys to <code>local.properties</code>.</p>
+  </div>
+
+  <h2>13. Quick Demo Flow</h2>
+  <ol>
+    <li>Open the app.</li>
+    <li>Register with an email and password.</li>
+    <li>Go to <strong>Map</strong>.</li>
+    <li>Tap <strong>Pick destination</strong>, then tap the map.</li>
+    <li>Tap <strong>Route</strong>.</li>
+    <li>Long-press the map and report a <strong>Pothole</strong>.</li>
+    <li>Open <strong>Stats</strong> to see CO2 savings.</li>
+    <li>Open <strong>Profile</strong>, turn on <strong>Live location</strong>, then return to <strong>Map</strong> to see buddy markers.</li>
+  </ol>
+</body>
+</html>

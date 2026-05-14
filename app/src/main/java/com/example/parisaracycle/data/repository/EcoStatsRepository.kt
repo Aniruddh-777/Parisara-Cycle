@@ -3,36 +3,44 @@ package com.example.parisaracycle.data.repository
 import android.content.Context
 import com.example.parisaracycle.data.model.EcoStats
 import com.example.parisaracycle.utils.TimeUtils
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 
 class EcoStatsRepository(context: Context) {
     private val preferences = context.getSharedPreferences("eco_stats", Context.MODE_PRIVATE)
-    private val _stats = MutableStateFlow(readStats())
+    private val statsLock = Any()
+    private val _stats = MutableStateFlow(EcoStats())
 
     val stats: StateFlow<EcoStats> = _stats.asStateFlow()
 
-    @Synchronized
-    fun addTrip(distanceKm: Double) {
+    suspend fun addTrip(distanceKm: Double) {
         if (distanceKm <= 0.0) return
 
-        val co2Grams = distanceKm * 120.0
-        val day = TimeUtils.dayKey()
-        val month = TimeUtils.monthKey()
+        withContext(Dispatchers.IO) {
+            synchronized(statsLock) {
+                val co2Grams = distanceKm * 120.0
+                val day = TimeUtils.dayKey()
+                val month = TimeUtils.monthKey()
 
-        preferences.edit()
-            .putFloat(dayDistanceKey(day), getFloat(dayDistanceKey(day)) + distanceKm.toFloat())
-            .putFloat(dayCo2Key(day), getFloat(dayCo2Key(day)) + co2Grams.toFloat())
-            .putFloat(monthDistanceKey(month), getFloat(monthDistanceKey(month)) + distanceKm.toFloat())
-            .putFloat(monthCo2Key(month), getFloat(monthCo2Key(month)) + co2Grams.toFloat())
-            .apply()
+                preferences.edit()
+                    .putFloat(dayDistanceKey(day), getFloat(dayDistanceKey(day)) + distanceKm.toFloat())
+                    .putFloat(dayCo2Key(day), getFloat(dayCo2Key(day)) + co2Grams.toFloat())
+                    .putFloat(monthDistanceKey(month), getFloat(monthDistanceKey(month)) + distanceKm.toFloat())
+                    .putFloat(monthCo2Key(month), getFloat(monthCo2Key(month)) + co2Grams.toFloat())
+                    .apply()
 
-        _stats.value = readStats()
+                _stats.value = readStats()
+            }
+        }
     }
 
-    fun refresh() {
-        _stats.value = readStats()
+    suspend fun refresh() {
+        withContext(Dispatchers.IO) {
+            _stats.value = readStats()
+        }
     }
 
     private fun readStats(): EcoStats {

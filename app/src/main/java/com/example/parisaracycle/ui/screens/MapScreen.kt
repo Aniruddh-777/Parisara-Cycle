@@ -135,7 +135,7 @@ private fun KeylessCycleMap(
     onMapLongClick: (LatLng) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val defaultCenter = LatLng(12.9716, 77.5946)
+    val defaultCenter = LatLng(12.9141, 74.8560)
     val center = uiState.currentLocation ?: uiState.destination ?: defaultCenter
     var canvasSize by remember { mutableStateOf(IntSize.Zero) }
     val labelPaint = remember {

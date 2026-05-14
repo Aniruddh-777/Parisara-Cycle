@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Parisara-Cycle Internship Diary</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 16mm;
+    }
+
+    body {
+      color: #172018;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12.2px;
+      line-height: 1.42;
+      margin: 0;
+    }
+
+    h1, h2, h3 {
+      color: #1b5e20;
+      line-height: 1.2;
+      margin: 0 0 8px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 4px;
+    }
+
+    h2 {
+      border-bottom: 1px solid #d6ded2;
+      font-size: 18px;
+      margin-top: 18px;
+      padding-bottom: 5px;
+    }
+
+    h3 {
+      color: #006d77;
+      font-size: 14px;
+      margin-top: 13px;
+    }
+
+    p {
+      margin: 0 0 8px;
+    }
+
+    ul {
+      margin: 6px 0 10px 20px;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 10px 0 12px;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #ccd8c9;
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eaf2e6;
+      color: #1b5e20;
+      font-weight: 700;
+    }
+
+    tr {
+      break-inside: avoid;
+    }
+
+    .subtitle {
+      color: #435147;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .box {
+      background: #f3f7ef;
+      border: 1px solid #d6ded2;
+      border-radius: 8px;
+      margin: 10px 0;
+      padding: 11px 13px;
+    }
+
+    .meta {
+      display: grid;
+      gap: 5px 20px;
+      grid-template-columns: 1fr 1fr;
+      margin: 12px 0 16px;
+    }
+
+    .label {
+      color: #435147;
+      font-weight: 700;
+    }
+
+    .date {
+      white-space: nowrap;
+      width: 98px;
+    }
+
+    .day {
+      color: #435147;
+      display: block;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Internship Diary</h1>
+  <p class="subtitle">Parisara-Cycle - Green Commuter Guide</p>
+
+  <div class="meta">
+    <p><span class="label">Student Name:</span> ______________________________</p>
+    <p><span class="label">Register No.:</span> ______________________________</p>
+    <p><span class="label">Organization/Department:</span> ______________________________</p>
+    <p><span class="label">Internship Period:</span> May 4, 2026 to May 20, 2026</p>
+    <p><span class="label">Project:</span> Parisara-Cycle Android Application</p>
+    <p><span class="label">Platform:</span> Kotlin, Jetpack Compose, Firebase-ready Android app</p>
+  </div>
+
+  <div class="box">
+    <p><strong>Project overview:</strong> Parisara-Cycle is an Android application for bicycle commuters. It helps riders sign in, choose a route, report danger zones, view nearby pit-stops, track CO2 savings, and optionally share live location with nearby riders.</p>
+    <p><strong>Current project mode:</strong> The app supports a no-key local mode using local authentication, local danger-zone storage, mock pit-stops, demo buddy markers, local route generation, and local eco-stat storage. Firebase and Google Maps/Directions can be connected later through configuration files and API keys.</p>
+  </div>
+
+  <h2>Daily Work Diary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th class="date">Date</th>
+        <th>Work Summary</th>
+        <th>Outcome</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="date">May 4, 2026<span class="day">Monday</span></td>
+        <td>Studied the Parisara-Cycle project idea and identified the main user needs: safer bicycle routes, danger-zone reporting, pit-stop support, environmental tracking, and rider profile management.</td>
+        <td>Prepared a clear feature scope for a green commuter guide app and finalized the main modules required for development.</td>
+      </tr>
+      <tr>
+        <td class="date">May 5, 2026<span class="day">Tuesday</span></td>
+        <td>Reviewed the Android project structure, Gradle setup, package organization, resources, permissions, and Compose-based application flow.</td>
+        <td>Understood the codebase structure and confirmed that the app would use Kotlin, Jetpack Compose, Material 3, repositories, ViewModels, and Android location permissions.</td>
+      </tr>
+      <tr>
+        <td class="date">May 6, 2026<span class="day">Wednesday</span></td>
+        <td>Worked on the authentication flow by studying the login and registration screen, AuthViewModel, and AuthRepository behavior for Firebase and local fallback usage.</td>
+        <td>Confirmed that users can be represented through an AppUser model and that local sign-in can support demo usage when Firebase configuration is not available.</td>
+      </tr>
+      <tr>
+        <td class="date">May 7, 2026<span class="day">Thursday</span></td>
+        <td>Analyzed and improved the application shell with bottom navigation between Map, Stats, and Profile screens using the central ParisaraCycleApp composable.</td>
+        <td>Created a simple navigation flow that allows riders to move between route planning, eco-stat tracking, and account/location controls.</td>
+      </tr>
+      <tr>
+        <td class="date">May 8, 2026<span class="day">Friday</span></td>
+        <td>Studied the map screen implementation, including the keyless local map surface, current location marker, destination selection, layer filters, and map tap/long-press actions.</td>
+        <td>Established the main map interface where riders can choose a destination, view route information, and control visible layers.</td>
+      </tr>
+      <tr>
+        <td class="date">May 9, 2026<span class="day">Saturday</span></td>
+        <td>Worked on route generation logic through DirectionsRepository. Reviewed Google Directions support and the fallback local route builder used when API keys are not configured.</td>
+        <td>Ensured the app can generate a route in demo mode and can later switch to real Google bicycle routing when keys are added.</td>
+      </tr>
+      <tr>
+        <td class="date">May 10, 2026<span class="day">Sunday</span></td>
+        <td>Reviewed the data models used by the project, including route results, danger-zone types, pit-stop types, buddy locations, map layers, and eco-stat records.</td>
+        <td>Documented the core data structure of the app and verified that each screen has the required model support.</td>
+      </tr>
+      <tr>
+        <td class="date">May 11, 2026<span class="day">Monday</span></td>
+        <td>Implemented and reviewed danger-zone reporting logic. The app supports long-press map reporting for potholes, dangerous intersections, and blocked paths.</td>
+        <td>Completed a safety-reporting workflow where rider reports can be stored locally or sent to Firestore when Firebase is configured.</td>
+      </tr>
+      <tr>
+        <td class="date">May 12, 2026<span class="day">Tuesday</span></td>
+        <td>Reviewed pit-stop support for cycle repair and water points. Checked how pit-stop markers are displayed on the map and controlled through layer filters.</td>
+        <td>Added practical commuter support by making nearby repair and water locations visible during route planning.</td>
+      </tr>
+      <tr>
+        <td class="date">May 13, 2026<span class="day">Wednesday</span></td>
+        <td>Worked on the eco-stats feature. Reviewed trip saving, daily/monthly distance calculation, and the CO2 conversion rule of 1 km cycled = 120 g CO2 saved.</td>
+        <td>Completed environmental impact tracking so generated routes contribute to daily and monthly distance and CO2 savings.</td>
+      </tr>
+      <tr>
+        <td class="date">May 14, 2026<span class="day">Thursday</span></td>
+        <td>Reviewed the Stats screen layout and metric cards for today, this month, and current daily average. Checked formatting helpers for distance and CO2 display.</td>
+        <td>Presented eco-stat data in a readable way, helping users understand the benefit of cycling instead of using fuel-based transport.</td>
+      </tr>
+      <tr>
+        <td class="date">May 15, 2026<span class="day">Friday</span></td>
+        <td>Worked on the buddy system and live location sharing behavior. Studied nearby rider filtering, active user handling, publishing/removing locations, and the Profile screen sharing switch.</td>
+        <td>Enabled a rider-community feature where nearby riders can be shown on the map while avoiding display of the active user's own marker.</td>
+      </tr>
+      <tr>
+        <td class="date">May 16, 2026<span class="day">Saturday</span></td>
+        <td>Reviewed location permission handling through manifest permissions, permission helper utilities, and request buttons on the Map and Profile screens.</td>
+        <td>Improved app reliability by allowing route source selection and live sharing to work with permission-aware behavior and fallback messages.</td>
+      </tr>
+      <tr>
+        <td class="date">May 17, 2026<span class="day">Sunday</span></td>
+        <td>Studied Firebase integration points in the app container, including Authentication, Firestore, and Realtime Database clients, while keeping local fallback behavior available.</td>
+        <td>Prepared the project for both demo execution and future cloud-backed deployment without changing the user-facing app flow.</td>
+      </tr>
+      <tr>
+        <td class="date">May 18, 2026<span class="day">Monday</span></td>
+        <td>Reviewed UI consistency across Compose screens. Checked Material 3 cards, buttons, filter chips, icons, spacing, and screen organization for Login, Map, Stats, and Profile.</td>
+        <td>Improved the app's usability and made the interface more consistent for common rider workflows.</td>
+      </tr>
+      <tr>
+        <td class="date">May 19, 2026<span class="day">Tuesday</span></td>
+        <td>Prepared setup and user documentation covering no-key mode, optional Google Maps/Directions configuration, optional Firebase setup, permissions, and demo flow.</td>
+        <td>Created supporting documentation so the project can be built, tested, demonstrated, and extended by another developer or evaluator.</td>
+      </tr>
+      <tr>
+        <td class="date">May 20, 2026<span class="day">Wednesday</span></td>
+        <td>Completed final project review by checking the main features together: sign-in, map destination selection, route generation, danger reports, pit-stops, eco-stats, buddy markers, and profile actions.</td>
+        <td>Finalized the internship work summary and confirmed that the project demonstrates a functional green commuter guide with scope for Firebase and real routing upgrades.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Overall Work Summary</h2>
+  <p>During this internship period, the Parisara-Cycle Android project was analyzed and documented as a sustainable mobility application. The work focused on understanding and organizing the app's architecture, user flow, map behavior, local fallback repositories, Firebase-ready integration points, location permissions, eco-stat tracking, and supporting documentation.</p>
+
+  <h2>Major Outcomes</h2>
+  <ul>
+    <li>Created a clear understanding of the complete app flow from login to route planning and profile management.</li>
+    <li>Verified the main user-facing modules: Map, Stats, and Profile.</li>
+    <li>Documented danger-zone reporting for potholes, dangerous intersections, and blocked paths.</li>
+    <li>Reviewed route generation with local fallback and optional Google Directions support.</li>
+    <li>Explained eco-stat calculation using 120 g CO2 saved per kilometre cycled.</li>
+    <li>Covered buddy location sharing and nearby rider display behavior.</li>
+    <li>Prepared the project for demonstration using local mode without requiring Firebase or paid API keys.</li>
+  </ul>
+
+  <h2>Learning Outcomes</h2>
+  <ul>
+    <li>Gained practical understanding of Kotlin Android development using Jetpack Compose and Material 3.</li>
+    <li>Learned how ViewModels, repositories, models, and UI screens work together in a maintainable Android app.</li>
+    <li>Understood location permissions, route data, map markers, and local persistence using SharedPreferences.</li>
+    <li>Learned how to design an app that can run in local demo mode while still supporting future Firebase and Google API integration.</li>
+  </ul>
+
+  <h2>Conclusion</h2>
+  <p>The Parisara-Cycle project successfully demonstrates the concept of a green commuter guide for cyclists. It combines safety, route planning, nearby support points, environmental savings, and social riding features into a single Android application. The internship work helped convert the project into a better understood, documented, and presentation-ready application.</p>
+</body>
+</html>
