@@ -14,6 +14,7 @@ Features
 🔥 Firebase integration
 🗂 MVVM Architecture
 ⚡ Smooth user experience and responsive UI
+
 Technologies Used
 Kotlin
 Android Studio
@@ -22,7 +23,38 @@ Firebase
 MVVM Architecture
 Google Maps API
 Git & GitHub
-Project Structure
+
+
+# ✨ Features
+
+✅ Cycle Activity Tracking  
+✅ Map Integration for Navigation & Pit Stops  
+✅ Eco Statistics & Environmental Impact Tracking  
+✅ Nearby Pit Stop Management  
+✅ Modern UI using Jetpack Compose  
+✅ Firebase Integration  
+✅ MVVM Architecture  
+✅ Smooth & Responsive User Experience  
+
+---
+
+# 🛠 Technologies Used
+
+| Technology | Purpose |
+|------------|---------|
+| Kotlin | Android Development |
+| Android Studio | IDE |
+| Jetpack Compose | Modern UI Development |
+| Firebase | Backend Services |
+| MVVM Architecture | App Structure |
+| Google Maps API | Navigation & Maps |
+| Git & GitHub | Version Control |
+
+---
+
+# 📂 Project Structure
+
+```text
 ParisaraCycle/
 │
 ├── app/
@@ -38,60 +70,95 @@ ParisaraCycle/
 ├── docs/
 ├── README.md
 └── build.gradle
-Installation
-Clone the Repository
+````
+
+---
+
+# ⚙️ Installation
+
+## 📥 Clone the Repository
+
+```bash
 git clone https://github.com/Aniruddh-777/Parisara-Cycle.git
-Open in Android Studio
-Open Android Studio
-Click on Open Project
-Select the cloned project folder
-Sync Gradle files
-Run the application on emulator or Android device
-Screenshots
+```
 
-Add screenshots of the application here.
+## ▶️ Open in Android Studio
 
-Internship Information
-Internship Domain: Android App Development using Generative AI
-Company: MindMatrix.io (CL Infotech)
-Project Name: ParisaraCycle
-Project Type: Android Application
-Learning Outcomes
+1. Open **Android Studio**
+2. Click on **Open Project**
+3. Select the cloned project folder
+4. Sync Gradle files
+5. Run the application on emulator or Android device
+
+---
+
+# 📸 Screenshots
+
+> Add application screenshots here.
+
+Example:
+
+```markdown
+<img src="screenshots/home.png" width="250">
+<img src="screenshots/map.png" width="250">
+```
+
+---
+
+# 🏢 Internship Information
+
+| Field             | Details                                     |
+| ----------------- | ------------------------------------------- |
+| Internship Domain | Android App Development using Generative AI |
+| Company           | MindMatrix.io (CL Infotech)                 |
+| Project Name      | ParisaraCycle                               |
+| Project Type      | Android Application                         |
+
+---
+
+# 📚 Learning Outcomes
 
 During the development of this project, the following skills were improved:
 
-Android Application Development
-Kotlin Programming
-UI/UX Design using Jetpack Compose
-Firebase Integration
-MVVM Architecture Implementation
-Git and GitHub Version Control
-Debugging and Testing
-Real-world Project Development
-Future Improvements
-User authentication system
-Real-time route tracking
-AI-based cycling recommendations
-Leaderboard and gamification
-Cloud synchronization
-Author
+* Android Application Development
+* Kotlin Programming
+* UI/UX Design using Jetpack Compose
+* Firebase Integration
+* MVVM Architecture Implementation
+* Git and GitHub Version Control
+* Debugging and Testing
+* Real-world Project Development
 
-Aniruddh Nayak
+---
 
-GitHub: https://github.com/Aniruddh-777
+# 🚀 Future Improvements
 
-License
+🔹 User Authentication System
+🔹 Real-time Route Tracking
+🔹 AI-based Cycling Recommendations
+🔹 Leaderboard & Gamification
+🔹 Cloud Synchronization
 
-This project is developed for educational and internship purposes.
+---
 
-I created a professional README.md for your ParisaraCycle project with:
+# 👨‍💻 Author
 
-Project overview
-Features
-Technologies used
-Installation steps
-Project structure
-Internship details
-Learning outcomes
-Future improvements
-Author section
+## Aniruddh Nayak
+
+🔗 GitHub:
+👉 [https://github.com/Aniruddh-777](https://github.com/Aniruddh-777)
+
+---
+
+# 📜 License
+
+This project is developed for **educational and internship purposes**.
+
+---
+
+<div align="center">
+
+### 🌱 “Ride Green, Save Nature” 🚴‍♂️
+
+</div>
+```
