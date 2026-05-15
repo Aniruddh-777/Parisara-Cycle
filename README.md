@@ -94,16 +94,15 @@ git clone https://github.com/Aniruddh-777/Parisara-Cycle.git
 
 # 📸 Screenshots
 
-> Add application screenshots here.
+<p align="center">
+  <img src="LOGIN view.jpeg" width="220">
+  <img src="MAP view.jpeg" width="220">
+</p>
 
-Example:
-
-```markdown
-<img src="screenshots/home.png" width="250">
-<img src="screenshots/map.png" width="250">
-```
-
----
+<p align="center">
+  <img src="STAT View.jpeg" width="220">
+  <img src="PROFILE view.jpeg" width="220">
+</p>
 
 # 🏢 Internship Information
 
