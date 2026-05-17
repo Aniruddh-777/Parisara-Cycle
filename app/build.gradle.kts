@@ -68,6 +68,7 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.maps.compose)
+    implementation(libs.osmdroid.android)
     implementation(libs.play.services.location)
 
     implementation(platform(libs.firebase.bom))

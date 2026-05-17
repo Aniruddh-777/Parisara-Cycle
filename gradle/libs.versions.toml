@@ -15,6 +15,7 @@ kotlin = "2.3.10"
 kotlinxCoroutines = "1.10.2"
 lifecycle = "2.10.0"
 mapsCompose = "8.3.0"
+osmdroid = "6.1.20"
 playServicesLocation = "21.3.0"
 secretsGradlePlugin = "2.0.1"
 
@@ -46,6 +47,7 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database" 
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines" }
 maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "mapsCompose" }
+osmdroid-android = { group = "org.osmdroid", name = "osmdroid-android", version.ref = "osmdroid" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 [plugins]

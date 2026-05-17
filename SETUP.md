@@ -6,10 +6,10 @@ The app now runs out of the box with no Firebase project, no Google Maps key, an
 
 Default no-key mode uses:
 
-- Local email/password session stored on-device
+- Local email/password accounts stored on-device
 - Local danger-zone storage
 - Local demo buddy markers
-- A Compose-rendered keyless map surface
+- OpenStreetMap tiles rendered in-app
 - Local route generation and CO2 calculation
 - Mock pit-stops
 
@@ -25,9 +25,9 @@ If dependencies are already cached:
 .\gradlew.bat assembleDebug --offline --no-daemon
 ```
 
-## Optional Google Maps And Directions
+## Map And Optional Google Directions
 
-If you later want real Google routing, add API keys to root `local.properties`:
+The app uses OpenStreetMap for the visible map by default. If you later want real Google bicycle routing, add API keys to root `local.properties`:
 
 ```properties
 MAPS_API_KEY=your_maps_android_key
@@ -83,4 +83,4 @@ Location permission is optional for the demo. If granted, the app can use the de
 - Screens: `ui/screens/LoginScreen.kt`, `MapScreen.kt`, `StatsScreen.kt`, `ProfileScreen.kt`
 - Repositories: `data/repository/`
 - Local CO2 stats: `data/repository/EcoStatsRepository.kt`
-- Keyless map UI: `ui/screens/MapScreen.kt`
+- OpenStreetMap UI: `ui/screens/MapScreen.kt`

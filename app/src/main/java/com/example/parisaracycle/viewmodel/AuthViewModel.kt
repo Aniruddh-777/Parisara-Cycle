@@ -43,7 +43,12 @@ class AuthViewModel(
         }
     }
 
-    fun register(email: String, password: String) {
+    fun register(email: String, password: String, confirmPassword: String) {
+        if (password != confirmPassword) {
+            _uiState.update { it.copy(errorMessage = "Passwords do not match.") }
+            return
+        }
+
         submit(email, password) { normalizedEmail, rawPassword ->
             authRepository.register(normalizedEmail, rawPassword)
         }

@@ -57,7 +57,7 @@ class MapViewModel(
         MapUiState(
             currentLocation = defaultCenter,
             pitStops = pitStopRepository.getNearbyPitStops(defaultCenter),
-            message = "Running in keyless local mode."
+            message = "OpenStreetMap is ready."
         )
     )
     private var activeUserId: String = ""

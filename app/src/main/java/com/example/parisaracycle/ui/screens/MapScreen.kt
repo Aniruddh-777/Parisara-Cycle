@@ -1,12 +1,10 @@
 package com.example.parisaracycle.ui.screens
 
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.Color as AndroidColor
+import android.graphics.drawable.GradientDrawable
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,6 +39,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,18 +47,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.parisaracycle.data.model.DangerZoneType
 import com.example.parisaracycle.data.model.MapLayer
@@ -70,6 +62,14 @@ import com.example.parisaracycle.viewmodel.MapUiState
 import com.example.parisaracycle.viewmodel.MapViewModel
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.delay
+import org.osmdroid.config.Configuration
+import org.osmdroid.events.MapEventsReceiver
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.MapEventsOverlay
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.Polyline
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -98,7 +98,7 @@ fun MapScreen(
     }
 
     Box(modifier = modifier) {
-        KeylessCycleMap(
+        OsmCycleMap(
             uiState = uiState,
             onMapClick = viewModel::onMapClick,
             onMapLongClick = viewModel::onMapLongClick,
@@ -125,173 +125,147 @@ fun MapScreen(
                 )
             }
         }
+
+        Surface(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(12.dp),
+            shape = RoundedCornerShape(6.dp),
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.86f)
+        ) {
+            Text(
+                text = "Map data: OpenStreetMap contributors",
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 }
 
 @Composable
-private fun KeylessCycleMap(
+private fun OsmCycleMap(
     uiState: MapUiState,
     onMapClick: (LatLng) -> Unit,
     onMapLongClick: (LatLng) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val defaultCenter = LatLng(12.9141, 74.8560)
     val center = uiState.currentLocation ?: uiState.destination ?: defaultCenter
-    var canvasSize by remember { mutableStateOf(IntSize.Zero) }
-    val labelPaint = remember {
-        Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color(0xFF263128).toArgb()
-            textSize = 28f
-            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+    val mapView = remember(context) {
+        Configuration.getInstance().userAgentValue = context.packageName
+        MapView(context).apply {
+            setTileSource(TileSourceFactory.MAPNIK)
+            setMultiTouchControls(true)
+            minZoomLevel = 3.0
+            maxZoomLevel = 20.0
+            controller.setZoom(15.0)
+            controller.setCenter(center.toGeoPoint())
         }
     }
-    val smallLabelPaint = remember {
-        Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color(0xFF435147).toArgb()
-            textSize = 22f
+    var lastCenteredPoint by remember { mutableStateOf<LatLng?>(null) }
+
+    DisposableEffect(mapView) {
+        mapView.onResume()
+        onDispose {
+            mapView.onPause()
+            mapView.onDetach()
         }
     }
 
-    Canvas(
-        modifier = modifier
-            .onSizeChanged { canvasSize = it }
-            .pointerInput(center, canvasSize, uiState.isPickingDestination) {
-                detectTapGestures(
-                    onTap = { offset ->
-                        if (canvasSize.width > 0 && canvasSize.height > 0) {
-                            onMapClick(offsetToLatLng(offset, center, canvasSize))
+    AndroidView(
+        factory = { mapView },
+        modifier = modifier,
+        update = { view ->
+            if (lastCenteredPoint != center) {
+                view.controller.setCenter(center.toGeoPoint())
+                if (view.zoomLevelDouble < 13.0) view.controller.setZoom(15.0)
+                lastCenteredPoint = center
+            }
+
+            view.overlays.clear()
+            view.overlays.add(
+                MapEventsOverlay(
+                    object : MapEventsReceiver {
+                        override fun singleTapConfirmedHelper(point: GeoPoint?): Boolean {
+                            point?.let { onMapClick(it.toLatLng()) }
+                            return uiState.isPickingDestination
                         }
-                    },
-                    onLongPress = { offset ->
-                        if (canvasSize.width > 0 && canvasSize.height > 0) {
-                            onMapLongClick(offsetToLatLng(offset, center, canvasSize))
+
+                        override fun longPressHelper(point: GeoPoint?): Boolean {
+                            point?.let { onMapLongClick(it.toLatLng()) }
+                            return true
                         }
                     }
                 )
-            }
-    ) {
-        drawRect(Color(0xFFEAF2E6))
-
-        val roadColor = Color(0xFFD7DECF)
-        val cycleColor = Color(0xFF9BCF9C)
-        val majorRoadColor = Color(0xFFC4CEBE)
-
-        var x = -80f
-        while (x < size.width + 80f) {
-            drawLine(
-                color = if (((x / 160).toInt() % 2) == 0) majorRoadColor else roadColor,
-                start = Offset(x, 0f),
-                end = Offset(x + size.height * 0.24f, size.height),
-                strokeWidth = if (((x / 160).toInt() % 2) == 0) 6f else 3f
             )
-            x += 80f
-        }
 
-        var y = -80f
-        while (y < size.height + 80f) {
-            drawLine(
-                color = roadColor,
-                start = Offset(0f, y),
-                end = Offset(size.width, y - size.width * 0.12f),
-                strokeWidth = 3f
-            )
-            y += 80f
-        }
-
-        repeat(4) { index ->
-            val pathY = size.height * (0.28f + index * 0.16f)
-            drawLine(
-                color = cycleColor,
-                start = Offset(-40f, pathY),
-                end = Offset(size.width + 40f, pathY + if (index % 2 == 0) 55f else -45f),
-                strokeWidth = 7f
-            )
-        }
-
-        if (MapLayer.Route in uiState.enabledLayers && uiState.routePoints.size > 1) {
-            uiState.routePoints.zipWithNext().forEach { (from, to) ->
-                drawLine(
-                    color = Color(0xFF1B5E20),
-                    start = latLngToOffset(from, center, canvasSize),
-                    end = latLngToOffset(to, center, canvasSize),
-                    strokeWidth = 12f
+            if (MapLayer.Route in uiState.enabledLayers && uiState.routePoints.size > 1) {
+                view.overlays.add(
+                    Polyline().apply {
+                        setPoints(uiState.routePoints.map { it.toGeoPoint() })
+                        outlinePaint.color = AndroidColor.rgb(27, 94, 32)
+                        outlinePaint.strokeWidth = 10f
+                    }
                 )
             }
-        }
 
-        if (MapLayer.PitStops in uiState.enabledLayers) {
-            uiState.pitStops.forEach { pitStop ->
-                val color = when (pitStop.type) {
-                    PitStopType.Repair -> Color(0xFFE07A2D)
-                    PitStopType.Water -> Color(0xFF0077B6)
+            if (MapLayer.PitStops in uiState.enabledLayers) {
+                uiState.pitStops.forEach { pitStop ->
+                    val color = when (pitStop.type) {
+                        PitStopType.Repair -> AndroidColor.rgb(224, 122, 45)
+                        PitStopType.Water -> AndroidColor.rgb(0, 119, 182)
+                    }
+                    view.addCycleMarker(
+                        position = pitStop.position,
+                        title = pitStop.name,
+                        color = color
+                    )
                 }
-                drawMarker(
-                    position = latLngToOffset(pitStop.position, center, canvasSize),
-                    color = color,
-                    label = pitStop.name.take(14),
-                    paint = smallLabelPaint
+            }
+
+            if (MapLayer.Danger in uiState.enabledLayers) {
+                uiState.dangerZones.forEach { zone ->
+                    view.addCycleMarker(
+                        position = zone.position,
+                        title = zone.type.label,
+                        color = AndroidColor.rgb(198, 40, 40)
+                    )
+                }
+            }
+
+            if (MapLayer.Buddies in uiState.enabledLayers) {
+                uiState.buddyLocations.forEach { buddy ->
+                    view.addCycleMarker(
+                        position = buddy.position,
+                        title = "Rider",
+                        color = AndroidColor.rgb(123, 31, 162)
+                    )
+                }
+            }
+
+            uiState.destination?.let { destination ->
+                view.addCycleMarker(
+                    position = destination,
+                    title = "Destination",
+                    color = AndroidColor.rgb(46, 125, 50),
+                    size = 38
                 )
             }
-        }
 
-        if (MapLayer.Danger in uiState.enabledLayers) {
-            uiState.dangerZones.forEach { zone ->
-                drawMarker(
-                    position = latLngToOffset(zone.position, center, canvasSize),
-                    color = Color(0xFFC62828),
-                    label = zone.type.label.take(14),
-                    paint = smallLabelPaint
+            uiState.currentLocation?.let { source ->
+                view.addCycleMarker(
+                    position = source,
+                    title = "You",
+                    color = AndroidColor.rgb(21, 101, 192),
+                    size = 34
                 )
             }
-        }
 
-        if (MapLayer.Buddies in uiState.enabledLayers) {
-            uiState.buddyLocations.forEach { buddy ->
-                drawMarker(
-                    position = latLngToOffset(buddy.position, center, canvasSize),
-                    color = Color(0xFF7B1FA2),
-                    label = "Rider",
-                    paint = smallLabelPaint
-                )
-            }
+            view.invalidate()
         }
-
-        uiState.destination?.let { destination ->
-            drawMarker(
-                position = latLngToOffset(destination, center, canvasSize),
-                color = Color(0xFF2E7D32),
-                label = "Destination",
-                paint = labelPaint,
-                radius = 15f
-            )
-        }
-
-        uiState.currentLocation?.let { source ->
-            drawCircle(
-                color = Color(0xFF1565C0),
-                radius = 18f,
-                center = latLngToOffset(source, center, canvasSize)
-            )
-            drawCircle(
-                color = Color.White,
-                radius = 7f,
-                center = latLngToOffset(source, center, canvasSize)
-            )
-            drawContext.canvas.nativeCanvas.drawText(
-                "You",
-                latLngToOffset(source, center, canvasSize).x + 20f,
-                latLngToOffset(source, center, canvasSize).y - 18f,
-                labelPaint
-            )
-        }
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "Keyless local map",
-            28f,
-            size.height - 36f,
-            smallLabelPaint
-        )
-    }
+    )
 }
 
 @Composable
@@ -470,36 +444,35 @@ private fun DangerReportContent(
     }
 }
 
-private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawMarker(
-    position: Offset,
-    color: Color,
-    label: String,
-    paint: Paint,
-    radius: Float = 12f
+private fun MapView.addCycleMarker(
+    position: LatLng,
+    title: String,
+    color: Int,
+    size: Int = 30
 ) {
-    if (position.x !in -60f..(size.width + 60f) || position.y !in -60f..(size.height + 60f)) return
-    drawCircle(color = Color.White, radius = radius + 5f, center = position)
-    drawCircle(color = color, radius = radius, center = position)
-    drawCircle(color = color.copy(alpha = 0.22f), radius = radius + 18f, center = position, style = Stroke(2f))
-    drawContext.canvas.nativeCanvas.drawText(label, position.x + radius + 8f, position.y - radius, paint)
+    overlays.add(
+        Marker(this).apply {
+            this.position = position.toGeoPoint()
+            this.title = title
+            setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+            icon = markerDrawable(color, size)
+        }
+    )
 }
 
-private fun latLngToOffset(point: LatLng, center: LatLng, size: IntSize): Offset {
-    if (size.width == 0 || size.height == 0) return Offset.Zero
-    val latitudeSpan = 0.05
-    val longitudeSpan = latitudeSpan * size.width / size.height.coerceAtLeast(1).toDouble()
-    val x = size.width / 2f + ((point.longitude - center.longitude) / longitudeSpan * size.width).toFloat()
-    val y = size.height / 2f - ((point.latitude - center.latitude) / latitudeSpan * size.height).toFloat()
-    return Offset(x, y)
-}
+private fun markerDrawable(color: Int, size: Int): GradientDrawable =
+    GradientDrawable().apply {
+        shape = GradientDrawable.OVAL
+        setColor(color)
+        setStroke(5, AndroidColor.WHITE)
+        setSize(size, size)
+    }
 
-private fun offsetToLatLng(offset: Offset, center: LatLng, size: IntSize): LatLng {
-    val latitudeSpan = 0.05
-    val longitudeSpan = latitudeSpan * size.width / size.height.coerceAtLeast(1).toDouble()
-    val longitude = center.longitude + ((offset.x - size.width / 2f) / size.width) * longitudeSpan
-    val latitude = center.latitude - ((offset.y - size.height / 2f) / size.height) * latitudeSpan
-    return LatLng(latitude, longitude)
-}
+private fun LatLng.toGeoPoint(): GeoPoint =
+    GeoPoint(latitude, longitude)
+
+private fun GeoPoint.toLatLng(): LatLng =
+    LatLng(latitude, longitude)
 
 private fun LatLng.coordinateLabel(): String =
     String.format(Locale.US, "%.5f, %.5f", latitude, longitude)

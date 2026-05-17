@@ -2,7 +2,6 @@ package com.example.parisaracycle.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,12 +22,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,11 +40,13 @@ import com.example.parisaracycle.viewmodel.AuthUiState
 fun LoginScreen(
     uiState: AuthUiState,
     onSignIn: (String, String) -> Unit,
-    onRegister: (String, String) -> Unit,
+    onRegister: (String, String, String) -> Unit,
     onClearError: () -> Unit
 ) {
+    var isRegistering by rememberSaveable { mutableStateOf(false) }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    var confirmPassword by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -62,7 +63,7 @@ fun LoginScreen(
             )
         )
         Text(
-            text = "Green Commuter Guide",
+            text = if (isRegistering) "Create your account" else "Green Commuter Guide",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )
@@ -115,6 +116,25 @@ fun LoginScreen(
             enabled = uiState.isFirebaseConfigured && !uiState.isLoading
         )
 
+        if (isRegistering) {
+            Spacer(Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = confirmPassword,
+                onValueChange = {
+                    confirmPassword = it
+                    onClearError()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Confirm password") },
+                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+                visualTransformation = PasswordVisualTransformation(),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                enabled = uiState.isFirebaseConfigured && !uiState.isLoading
+            )
+        }
+
         uiState.errorMessage?.let { message ->
             Spacer(Modifier.height(12.dp))
             Text(
@@ -126,33 +146,52 @@ fun LoginScreen(
 
         Spacer(Modifier.height(20.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Button(
-                onClick = { onSignIn(email, password) },
-                modifier = Modifier.weight(1f),
-                enabled = uiState.isFirebaseConfigured && !uiState.isLoading
-            ) {
-                if (uiState.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.height(18.dp),
-                        strokeWidth = 2.dp,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
+        Button(
+            onClick = {
+                if (isRegistering) {
+                    onRegister(email, password, confirmPassword)
                 } else {
-                    Text("Sign in")
+                    onSignIn(email, password)
                 }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = uiState.isFirebaseConfigured && !uiState.isLoading
+        ) {
+            if (uiState.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.height(18.dp),
+                    strokeWidth = 2.dp,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            } else {
+                Text(if (isRegistering) "Create account" else "Sign in")
             }
+        }
 
-            OutlinedButton(
-                onClick = { onRegister(email, password) },
-                modifier = Modifier.weight(1f),
-                enabled = uiState.isFirebaseConfigured && !uiState.isLoading
+        Spacer(Modifier.height(10.dp))
+
+        OutlinedButton(
+            onClick = {
+                isRegistering = !isRegistering
+                confirmPassword = ""
+                onClearError()
+            },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !uiState.isLoading
+        ) {
+            Text(if (isRegistering) "Back to sign in" else "Create account")
+        }
+
+        if (!isRegistering) {
+            TextButton(
+                onClick = {
+                    isRegistering = true
+                    onClearError()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !uiState.isLoading
             ) {
-                Text("Register")
+                Text("New rider? Register first")
             }
         }
     }
